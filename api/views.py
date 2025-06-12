@@ -1,19 +1,15 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-from .models import User
-from .serializers import UserSerializer
+from django.contrib.auth import get_user_model
+from .serializers import UserSerializer, CustomTokenObtainPairSerializer
+from rest_framework import generics
+from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-@api_view(['GET'])
-def get_users(request):
-    dummy_user = {
-        "id": 1,
-        "username": "johndoe",
-        "email": "johndoe@example.com"
-    }
-    return Response(dummy_user)
+User = get_user_model()
 
+class CreateUserView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [AllowAny]
 
-@api_view(['GET'])
-def get_tags(request):
-    return Response(UserSerializer({"name": "John Doe"}).data, status=status.HTTP_200_OK)
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
