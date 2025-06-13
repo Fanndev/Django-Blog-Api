@@ -1,8 +1,10 @@
 from django.urls import path
-# from .views import get_tags, get_users
+from .views import  BeritaDetailView, BeritaListCreateView, TagListCreateView, TagDetailView
 
 
 urlpatterns = [
-    # path('users/', get_users, name='get_users'),
-    # path('tags/', get_tags, name='get_tags'),
+    path('berita', BeritaListCreateView.as_view(), name='berita-list-create'),
+    path('berita/<int:pk>', BeritaDetailView.as_view(), name='berita-detail'),
+    path('tag', TagListCreateView.as_view(), name='tag-list-create'),
+    path('tag/<int:pk>', TagDetailView.as_view(), name='tag-detail'),
 ]

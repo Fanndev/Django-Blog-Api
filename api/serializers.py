@@ -35,18 +35,27 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         }
 
         return data
-
-# berita
-class BeritaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Berita
-        fields = '__all__'
-
+    
 # Tag
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = '__all__'
+        fields = ['id', 'name']
+
+# berita
+class BeritaSerializer(serializers.ModelSerializer):
+    tags_data = TagSerializer(source='tags', many=True, read_only=True)
+    author_username = serializers.CharField(source='author.username', read_only=True)
+    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
+    updated_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
+    author = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = Berita
+        fields = [
+            'id', 'title', 'isi', 'created_at', 'updated_at',
+            'tags_data', 'author_username', 'author', 'tags'
+        ]
 
 # Comment
 class CommentSerializer(serializers.ModelSerializer):
