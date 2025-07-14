@@ -104,13 +104,13 @@ class BeritaDetailView(BaseResponseMixin, generics.RetrieveUpdateDestroyAPIView)
 
     def update(self, request, *args, **kwargs):
         # batasi update hanya untuk admin
-        if not request.user.is_staff:
+        if not request.user.is_authenticated or request.user.role != 'admin':
             self.permission_denied(request, message="Admin privileges required to update Berita.")
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         # batasi delete hanya untuk admin
-        if not request.user.is_staff:
+        if not request.user.is_authenticated or request.user.role != 'admin':
             self.permission_denied(request, message="Admin privileges required to delete Berita.")
         return super().destroy(request, *args, **kwargs)
 
