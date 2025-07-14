@@ -1,14 +1,18 @@
 from django.http import JsonResponse
+from django.conf import settings
 
 class RoleBasedAccessMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
+        if request.path.startswith(settings.MEDIA_URL):
+            return self.get_response(request)
+
         if request.path.startswith('/admin/') or request.path.startswith('/api/v1/'):
             return self.get_response(request)
 
-        # Check authentication
+        # Proteksi sisa request lainnya
         if not request.user.is_authenticated:
             return JsonResponse({'detail': 'Unauthorized'}, status=401)
 

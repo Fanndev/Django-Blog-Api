@@ -50,6 +50,7 @@ class Berita(models.Model):
     isi = models.TextField()
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='berita')
     tags = models.ManyToManyField(Tag, related_name='berita')
+    thumbnail = models.ImageField(upload_to='berita/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

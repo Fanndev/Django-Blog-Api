@@ -30,10 +30,13 @@ SECRET_KEY = 'django-insecure-tevc073hc@ee9r31b)z_9(1=shz7asv-f7ydcyl7t4f68!7tbh
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 ALLOWED_HOSTS = ["*"]
 
 REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['rest_framework.filters.SearchFilter'],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
